@@ -7,6 +7,7 @@ class Cursor
   end
 end
 
+
 class Spiral
   attr_accessor :direction, :cursor, :grid
 
@@ -16,14 +17,21 @@ class Spiral
     @direction = "Right"
     @cursor = Cursor.new
     @grid = create_grid
+    run
   end
 
   def create_grid
     grid = Array.new
     (1..@width).each do 
-      grid.push(Array.new(@width){Array.new})
+      grid.push(create_row)
     end
     grid
+  end
+
+  def create_row
+    Array.new(@width) do
+      Array.new
+    end
   end
 
   def write_num
@@ -36,25 +44,27 @@ class Spiral
     when "Right"
       if @grid[@cursor.row][@cursor.column + 1].nil?
         rotate
-      elsif @cursor.column + 1 == @width
+      elsif not @grid[@cursor.row][@cursor.column + 1].empty?
         rotate
       end
     when "Down"
       if @grid[@cursor.row + 1].nil?
         rotate
-        print "ASLDKALSKD"
-      elsif @cursor.row + 1 == @width
+      elsif not @grid[@cursor.row + 1][@cursor.column].empty?
         rotate
-        print "QWEQWE"
       end
     when "Left"
       if @grid[@cursor.row][@cursor.column - 1].nil?
         rotate
-      elsif @cursor.column - 1 < 0
+      elsif not @grid[@cursor.row][@cursor.column - 1].empty?
         rotate
       end
     when "Up"
-      rotate if @cursor.column - 1 < 0
+      if @grid[cursor.row - 1].nil?
+        rotate
+      elsif not @grid[cursor.row - 1][cursor.column].empty?
+        rotate
+      end
     end
   end
 
@@ -76,28 +86,23 @@ class Spiral
     end
   end
 
-  # def print
-  #   p @grid
-  # end
-
-  def run
-    self.write_num
-    self.look_ahead
-    self.move
+  def print
+    @text = ""
+    @grid.each do |line|
+      line.each do |number|
+        @text << number.to_s.gsub(/\[|\]/,"").rjust(5)
+      end
+      @text << "\n"
+    end
+    @text
   end
 
+  def run
+    (@width ** 2).times do
+      self.write_num
+      self.look_ahead
+      self.move
+    end
+    self.print
+  end
 end
-
-
-
-
-spiral = Spiral.new(2,3)
-
-9.times do
-  p spiral.cursor.row
-  spiral.run
-  p spiral.direction
-  # spiral.print
-  p spiral.grid
-end
-
