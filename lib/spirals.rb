@@ -91,7 +91,7 @@ end
 
 
 
-spiral = Spiral.new(1,3)
+spiral = Spiral.new(2,3)
 
 9.times do
   p spiral.cursor.row
