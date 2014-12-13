@@ -89,12 +89,16 @@ class Spiral
   def print
     @text = ""
     @grid.each do |line|
-      line.each do |number|
-        @text << number.to_s.gsub(/\[|\]/,"").rjust(5)
+      line.each_with_index do |number, index|
+        if index == 0
+          @text << number.to_s.gsub(/\[|\]/,"").rjust(3)
+        else
+          @text << number.to_s.gsub(/\[|\]/,"").rjust(5)
+        end
       end
       @text << "\n"
     end
-    @text
+    puts @text
   end
 
   def run
