@@ -48,7 +48,11 @@ class Spiral
         print "QWEQWE"
       end
     when "Left"
-      rotate if @cursor.row - 1 < 0
+      if @grid[@cursor.row][@cursor.column - 1].nil?
+        rotate
+      elsif @cursor.column - 1 < 0
+        rotate
+      end
     when "Up"
       rotate if @cursor.column - 1 < 0
     end
@@ -89,7 +93,7 @@ end
 
 spiral = Spiral.new(1,3)
 
-5.times do
+9.times do
   p spiral.cursor.row
   spiral.run
   p spiral.direction
