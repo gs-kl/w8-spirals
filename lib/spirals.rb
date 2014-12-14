@@ -86,7 +86,7 @@ class Spiral
     end
   end
 
-  def print
+  def return
     @text = ""
     @grid.each do |line|
       line.each_with_index do |number, index|
@@ -98,7 +98,11 @@ class Spiral
       end
       @text << "\n"
     end
-    puts @text
+    @text
+  end
+
+  def print
+    puts self.return
   end
 
   def run
@@ -107,6 +111,6 @@ class Spiral
       self.look_ahead
       self.move
     end
-    self.print
+    return self
   end
 end
